@@ -1,15 +1,15 @@
 import telebot
 from take_screenshot import update_photo
 
-TOKEN = ""
+TOKEN = "652964125:AAFDvCnJGPueErD8rpyXEslwuql45zzZ6W4"
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['get'])
 def start_handler(message):
     bot.send_message(message.chat.id, 'Привет, когда я вырасту, я буду парсить с параметрами')
     update_photo()
-    img = open("out.jpg","rb")
-    bot.send_photo(message.chat.id,img)
-    img.close()
+    f = open("img.jpg","rb")
+    bot.send_photo(message.chat.id,f)
+    f.close()
 
 bot.polling()
