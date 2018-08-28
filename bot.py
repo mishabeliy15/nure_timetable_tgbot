@@ -1,7 +1,7 @@
 import telebot
 from take_screenshot import update_photo
 
-TOKEN = "652964125:AAFDvCnJGPueErD8rpyXEslwuql45zzZ6W4"
+TOKEN = ""
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['get'])
