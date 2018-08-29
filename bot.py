@@ -20,7 +20,7 @@ def get_handler(message):
 
 @bot.message_handler(commands=['start','go'])
 def get_handler(message):
-    bot.send_message(message.chat.id, 'Привет. Напиши /get - для парса свежего расписание ПЗПИ-18')
+    bot.send_message(message.chat.id, 'Welcome!\nНапиши /get - для парса свежего расписание ПЗПИ-18')
     #send_time_table(message.chat.id)
 
 @bot.message_handler(commands=['get'])
