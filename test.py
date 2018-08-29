@@ -1,0 +1,3 @@
+from take_screenshot import update_photo,update_with_cashe
+
+update_with_cashe()
