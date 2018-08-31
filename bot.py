@@ -8,20 +8,22 @@ bot = telebot.TeleBot(TOKEN)
 
 groups_id =[6949772, 6949830, 6949706, 6949774, 7195531, 6949688, 6949724, 6949726, 6949654, 7195529, 7195533]
 
+
 def send_time_table(chat_id,group_id=groups_id[4]):
     update_with_cashe(group_id)
     f = open(get_img_name(group_id), "rb")
     bot.send_photo(chat_id, f)
+    #bot.send_document(chat_id, f)
     f.close()
+
 
 @bot.message_handler(commands=['author'])
 def get_handler(message):
-    bot.send_message(message.chat.id, 'Author: Misha Beliy')
+    bot.send_message(message.chat.id, 'Author: Misha Beliy(@devexc)')
 
 @bot.message_handler(commands=['start','go'])
 def get_handler(message):
     bot.send_message(message.chat.id, 'Welcome!\nНапиши /get - для парса свежего расписание ПЗПИ-18')
-    #send_time_table(message.chat.id)
 
 @bot.message_handler(commands=['get'])
 def test_handler(message):
