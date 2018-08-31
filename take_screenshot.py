@@ -9,6 +9,7 @@ nure_api_url1 = "http://cist.nure.ua/ias/app/tt/WEB_IAS_TT_GNR_RASP.GEN_GROUP_PO
 nure_api_url2 = "&Aid_potok=0&ADateStart=01.09.2018&ADateEnd=31.12.2018"
 
 
+
 def get_url(id_group=7195531):
     temp_url = nure_api_url1 + str(id_group) + nure_api_url2
     print(temp_url)
@@ -31,8 +32,12 @@ def update_photo(id_group):
     try:
         imgkit.from_url(get_url(id_group), get_img_name(id_group))
     except Exception:
-        now = datetime.datetime.now()
-        filename = now.date().__str__() + ".log"
-        f = open(filename,"a")
-        f.write("Error update_photo %s" % now.date())
-        f.close()
+        logging("Error update_photo")
+
+def logging(str):
+    now = datetime.datetime.now()
+    filename = now.date().__str__() + ".log"
+    f = open(filename, "a")
+    temp_str = "[{0}] {1}\n".format(now.today(),str)
+    f.write(temp_str)
+    f.close()

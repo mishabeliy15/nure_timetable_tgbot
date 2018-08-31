@@ -11,10 +11,13 @@ groups_id =[6949772, 6949830, 6949706, 6949774, 7195531, 6949688, 6949724, 69497
 
 def send_time_table(chat_id,group_id=groups_id[4]):
     update_with_cashe(group_id)
-    f = open(get_img_name(group_id), "rb")
-    bot.send_photo(chat_id, f)
-    #bot.send_document(chat_id, f)
-    f.close()
+    try:
+        f = open(get_img_name(group_id), "rb")
+        bot.send_photo(chat_id, f)
+        f.close()
+    except FileNotFoundError:
+        bot.send_message(chat_id, "FileNotFound\nВозможно сайт ХНУРЭ недоступен.")
+        logging(f.close())
 
 
 @bot.message_handler(commands=['author'])
