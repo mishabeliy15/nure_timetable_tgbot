@@ -1,6 +1,7 @@
 import imgkit
 import os.path
 import time
+import datetime
 
 pzpi18_5_id = 7195531  # PZPI 18-5
 
@@ -27,4 +28,11 @@ def update_with_cashe(id_group=7195531):
         update_photo(id_group)
 
 def update_photo(id_group):
-    imgkit.from_url(get_url(id_group), get_img_name(id_group))
+    try:
+        imgkit.from_url(get_url(id_group), get_img_name(id_group))
+    except Exception:
+        now = datetime.datetime.now()
+        filename = now.date().__str__() + ".log"
+        f = open(filename,"a")
+        f.write("Error update_photo %s" % now.date())
+        f.close()
