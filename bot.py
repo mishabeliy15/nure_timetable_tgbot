@@ -17,8 +17,7 @@ def send_time_table(chat_id,group_id=groups_id[4]):
         f.close()
     except FileNotFoundError:
         bot.send_message(chat_id, "FileNotFound\nВозможно сайт ХНУРЭ недоступен.")
-        logging(f.close())
-
+        logging("Error: FileNotFound (send_time_table)")
 
 @bot.message_handler(commands=['author'])
 def get_handler(message):
