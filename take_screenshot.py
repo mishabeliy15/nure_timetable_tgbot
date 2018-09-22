@@ -32,7 +32,7 @@ def update_photo(id_group):
     try:
         imgkit.from_url(get_url(id_group), get_img_name(id_group))
     except Exception:
-        logging("Error update_photo")
+        logging("Error update_photo(with access)")
 
 def logging(str):
     now = datetime.datetime.now()

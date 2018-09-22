@@ -1,13 +1,41 @@
 import telebot
+import cherrypy
 from telebot import types
 
 from take_screenshot import *
 
 TOKEN = ""
+
+
+WEBHOOK_HOST = '18.191.242.31'
+WEBHOOK_PORT = 443  # 443, 80, 88 или 8443 (порт должен быть открыт!)
+WEBHOOK_LISTEN = '0.0.0.0'  # На некоторых серверах придется указывать такой же IP, что и выше
+
+WEBHOOK_SSL_CERT = './webhook_cert.pem'  # Путь к сертификату
+WEBHOOK_SSL_PRIV = './webhook_pkey.pem'  # Путь к приватному ключу
+
+WEBHOOK_URL_BASE = "https://%s:%s" % (WEBHOOK_HOST, WEBHOOK_PORT)
+WEBHOOK_URL_PATH = "/%s/" % (TOKEN)
+
 bot = telebot.TeleBot(TOKEN)
 
-groups_id =[6949772, 6949830, 6949706, 6949774, 7195531, 6949688, 6949724, 6949726, 6949654, 7195529, 7195533]
+class WebhookServer(object):
+    @cherrypy.expose
+    def index(self):
+        if 'content-length' in cherrypy.request.headers and \
+                        'content-type' in cherrypy.request.headers and \
+                        cherrypy.request.headers['content-type'] == 'application/json':
+            length = int(cherrypy.request.headers['content-length'])
+            json_string = cherrypy.request.body.read(length).decode("utf-8")
+            update = telebot.types.Update.de_json(json_string)
+            # Эта функция обеспечивает проверку входящего сообщения
+            bot.process_new_updates([update])
+            return ''
+        else:
+            raise cherrypy.HTTPError(403)
 
+
+groups_id =[6949772, 6949830, 6949706, 6949774, 7195531, 6949688, 6949724, 6949726, 6949654, 7195529, 7195533]
 
 def send_time_table(chat_id,group_id=groups_id[4]):
     update_with_cashe(group_id)
@@ -47,4 +75,22 @@ def callback_inline(call):
     if id_group>=0 and id_group<=11:
         send_time_table(call.message.chat.id,group_id=groups_id[id_group])
 
-bot.polling(none_stop=True)
+
+# Снимаем вебхук перед повторной установкой (избавляет от некоторых проблем)
+bot.remove_webhook()
+
+ # Ставим заново вебхук
+bot.set_webhook(url=WEBHOOK_URL_BASE + WEBHOOK_URL_PATH,
+                certificate=open(WEBHOOK_SSL_CERT, 'r'))
+
+# Указываем настройки сервера CherryPy
+cherrypy.config.update({
+    'server.socket_host': WEBHOOK_LISTEN,
+    'server.socket_port': WEBHOOK_PORT,
+    'server.ssl_module': 'builtin',
+    'server.ssl_certificate': WEBHOOK_SSL_CERT,
+    'server.ssl_private_key': WEBHOOK_SSL_PRIV
+})
+
+ # Собственно, запуск!
+cherrypy.quickstart(WebhookServer(), WEBHOOK_URL_PATH, {'/': {}})
