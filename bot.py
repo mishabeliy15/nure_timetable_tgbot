@@ -3,25 +3,9 @@ from telebot import types
 
 from take_screenshot import *
 
-TOKEN = ""
+TOKEN = "464958591:AAG6_2iK9BePRuWyMvCg5vejzixlunfNz64"
 
 bot = telebot.TeleBot(TOKEN)
-
-class WebhookServer(object):
-    @cherrypy.expose
-    def index(self):
-        if 'content-length' in cherrypy.request.headers and \
-                        'content-type' in cherrypy.request.headers and \
-                        cherrypy.request.headers['content-type'] == 'application/json':
-            length = int(cherrypy.request.headers['content-length'])
-            json_string = cherrypy.request.body.read(length).decode("utf-8")
-            update = telebot.types.Update.de_json(json_string)
-            # Эта функция обеспечивает проверку входящего сообщения
-            bot.process_new_updates([update])
-            return ''
-        else:
-            raise cherrypy.HTTPError(403)
-
 
 groups_id =[6949772, 6949830, 6949706, 6949774, 7195531, 6949688, 6949724, 6949726, 6949654, 7195529, 7195533]
 
@@ -62,6 +46,3 @@ def callback_inline(call):
     id_group = int(call.data)
     if id_group>=0 and id_group<=11:
         send_time_table(call.message.chat.id,group_id=groups_id[id_group])
-
-
-bot.polling()
