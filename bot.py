@@ -3,7 +3,7 @@ from telebot import types
 
 from take_screenshot import *
 
-TOKEN = "464958591:AAG6_2iK9BePRuWyMvCg5vejzixlunfNz64"
+TOKEN = ""
 
 bot = telebot.TeleBot(TOKEN)
 
