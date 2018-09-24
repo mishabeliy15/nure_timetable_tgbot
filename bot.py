@@ -46,3 +46,14 @@ def callback_inline(call):
     id_group = int(call.data)
     if id_group>=0 and id_group<=11:
         send_time_table(call.message.chat.id,group_id=groups_id[id_group])
+
+				
+count = 0
+while True:
+    try:
+        count += 1
+        bot.polling()
+    except Exception as e:
+        print(str(e))
+        print(count)
+        bot.stop_polling()
