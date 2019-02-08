@@ -5,7 +5,7 @@ import datetime
 
 pzpi18_5_id = 7195531  # PZPI 18-5
 
-nure_api = "http://cist.nure.ua/ias/app/tt/WEB_IAS_TT_GNR_RASP.GEN_GROUP_POTOK_RASP?ATypeDoc=1&Aid_group={0}&Aid_potok=0&ADateStart={1}.{2}.2018&ADateEnd=31.12.2018"
+nure_api = "http://cist.nure.ua/ias/app/tt/WEB_IAS_TT_GNR_RASP.GEN_GROUP_POTOK_RASP?ATypeDoc=1&Aid_group={0}&Aid_potok=0&ADateStart={1}.{2}.2019&ADateEnd=14.06.2019"
 
 
 def get_url(id_group=7195531):
